@@ -8,3 +8,4 @@ In the past I've been in situation where I had to work in an application that ha
 ## Tasks
 - [ ] Catch HTTP requests coming out of my pc
 - [ ] Write a TUI that shows the requests going through your network
+- [ ] Implement a YAML configuration file 

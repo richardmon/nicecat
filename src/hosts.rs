@@ -58,7 +58,6 @@ fn test_add_redirect_rule_with_path_new_rule() {
     let temp_dir = tempdir().expect("Failed to create temporary directory");
     let hosts_path = temp_dir.path().join("hosts");
 
-
     // Create a test hosts file with an existing entry
     let mut test_file = File::create(&hosts_path).expect("Failed to create test file");
     test_file
