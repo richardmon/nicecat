@@ -12,8 +12,8 @@ enum HttpMethod {
     ANY,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Config {
+#[derive(Default, Serialize, Deserialize, Debug)]
+pub struct Config {
     sites: Vec<Site>,
 }
 
@@ -32,8 +32,8 @@ struct SpecificReponse {
     http_method: HttpMethod,
 }
 
-fn write_to_yaml_file(person: &Config, filename: &str) -> Result<()> {
-    let yaml_str = serde_yaml::to_string(person)?;
+fn write_to_yaml_file(config: &Config, filename: &str) -> Result<()> {
+    let yaml_str = serde_yaml::to_string(config)?;
     let mut file = File::create(filename)?;
     file.write_all(yaml_str.as_bytes())?;
     Ok(())
@@ -77,4 +77,8 @@ pub fn write_yaml() {
         Ok(()) => println!("Successfully wrote to YAML file."),
         Err(err) => eprintln!("Error writing to YAML file: {}", err),
     }
+}
+
+// TODO: Get the configuration file path as a parameter
+pub fn read_config() {
 }

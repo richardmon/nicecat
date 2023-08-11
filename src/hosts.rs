@@ -9,7 +9,7 @@ pub fn add_redirect_rule(hostname: &str) -> io::Result<()> {
 
 // Function to add a redirect rule to a given hosts file
 fn add_redirect_rule_with_path(hostname: &str, hosts_path: &PathBuf) -> io::Result<()> {
-    // Read the current content of /etc/hosts
+    // Read the current content of hosts file
     let file = OpenOptions::new().read(true).open(&hosts_path)?;
     let reader = BufReader::new(file);
 
