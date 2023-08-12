@@ -2,6 +2,7 @@ use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::{Path, PathBuf};
 
 #[derive(Serialize, Deserialize, Debug)]
 enum HttpMethod {
@@ -79,6 +80,12 @@ pub fn write_yaml() {
     }
 }
 
-// TODO: Get the configuration file path as a parameter
-pub fn read_config() {
+pub fn read_config(file_path: PathBuf) -> Result<Config> {
+    let mut file = File::open(file_path).expect("Unable to open configuration file");
+    let mut file_contents = String::new();
+    file.read_to_string(&mut file_contents)
+        .expect("Unable to read configuration file");
+
+    let config: Config = serde_yaml::from_str(&file_contents).expect("Unable to parse YAML");
+    Ok(config)
 }

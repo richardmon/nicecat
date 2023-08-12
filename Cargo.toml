@@ -7,8 +7,11 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.72"
-axum = "0.6.19"
+axum = { version = "0.6.19", features = ["macros"] }
+colored = "2.0.4"
 serde = { version = "1.0.180", features = ["derive"] }
+serde_json = "1.0.104"
 serde_yaml = "0.9.25"
+syntect = "5.1.0"
 tempfile = "3.7.0"
 tokio = { version = "1.29.1", features = ["tokio-macros", "macros", "rt-multi-thread"] }
