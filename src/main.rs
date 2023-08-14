@@ -3,6 +3,7 @@ use tokio::runtime;
 
 mod config;
 mod hosts;
+mod pprinter;
 mod server;
 
 fn main() {
