@@ -5,7 +5,7 @@ use std::{
 
 use axum::{
     extract::Path,
-    http::{HeaderMap, HeaderValue, StatusCode},
+    http::{HeaderMap, StatusCode},
     response::IntoResponse,
     routing::any,
     Router,
