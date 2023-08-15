@@ -14,13 +14,18 @@ fn main() {
         .arg(arg!(--urls <URLS>).value_delimiter(','))
         .get_matches();
 
-    let urls = matches
-        .get_many::<String>("urls")
-        .expect("urls set")
-        .collect::<Vec<_>>();
-    println!("urls: {:?}", urls);
-    let urls_owned: Vec<String> = urls.iter().map(|s| (*s).clone()).collect();
-    let config = config::Config::new(urls_owned);
+    let config;
+    if let Some(urls) = matches.get_many::<String>("urls") {
+        let urls_owned: Vec<String> = urls
+            .collect::<Vec<_>>()
+            .iter()
+            .map(|s| (*s).clone())
+            .collect();
+        println!("urls: {:?}", &urls_owned);
+        config = config::Config::new(urls_owned);
+    } else {
+        config = config::Config::new(vec![]);
+    }
 
     let rt = runtime::Builder::new_current_thread()
         .enable_all()

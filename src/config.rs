@@ -18,7 +18,7 @@ pub enum HttpMethod {
 #[derive(Default, Serialize, Deserialize, Debug)]
 pub struct Config {
     // pub sites: Vec<Site>,
-    pub sites: Vec<String>
+    pub sites: Vec<String>,
 }
 
 impl Config {

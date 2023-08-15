@@ -7,14 +7,12 @@ use axum::{
     extract::Path,
     http::{HeaderMap, StatusCode},
     response::IntoResponse,
-    routing::any, Router,
+    routing::any,
+    Router,
 };
 use colored::*;
 
-use crate::{
-    config::Config,
-    pprinter::PPrinter,
-};
+use crate::{config::Config, pprinter::PPrinter};
 
 pub async fn start_server(config: &Config) {
     let webserver_port = match env::var("PORT") {
