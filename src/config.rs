@@ -21,6 +21,13 @@ pub struct Config {
     pub sites: Vec<String>
 }
 
+impl Config {
+    /// Creates a new [`Config`].
+    pub fn new(sites: Vec<String>) -> Self {
+        Config { sites }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Site {
     pub base_url: String,
@@ -36,6 +43,7 @@ pub struct SpecificReponse {
     pub http_method: HttpMethod,
 }
 
+#[allow(dead_code)]
 fn write_to_yaml_file(config: &Config, filename: &str) -> Result<()> {
     let yaml_str = serde_yaml::to_string(config)?;
     let mut file = File::create(filename)?;
@@ -43,6 +51,7 @@ fn write_to_yaml_file(config: &Config, filename: &str) -> Result<()> {
     Ok(())
 }
 
+#[allow(dead_code)]
 pub fn read_config(file_path: PathBuf) -> Result<Config> {
     let mut file = File::open(file_path).expect("Unable to open configuration file");
     let mut file_contents = String::new();

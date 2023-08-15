@@ -7,20 +7,22 @@ use axum::{
     extract::Path,
     http::{HeaderMap, StatusCode},
     response::IntoResponse,
-    routing::any,
-    Router,
+    routing::any, Router,
 };
 use colored::*;
 
-use crate::{config::Config, pprinter::PPrinter};
+use crate::{
+    config::Config,
+    pprinter::PPrinter,
+};
 
-pub async fn start_server(_config: &Config) {
+pub async fn start_server(config: &Config) {
     let webserver_port = match env::var("PORT") {
         Ok(port) => port.parse().expect("Unable to parse the PORT varible"),
         Err(_) => 8080,
     };
     let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), webserver_port);
-    let app = Router::new().route("/*path", any(default_handler));
+    let app = Router::new().fallback(any(default_handler));
     println!(
         "{} {}!",
         "🚀 - Web server runing in port:".green(),

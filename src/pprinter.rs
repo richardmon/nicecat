@@ -7,6 +7,7 @@ use syntect::{
     parsing::SyntaxSet,
     util::{as_24_bit_terminal_escaped, LinesWithEndings},
 };
+use xmltree::{Element, EmitterConfig};
 
 pub struct PPrinter;
 
@@ -48,6 +49,7 @@ impl PPrinter {
 
     fn pretty_print_body(content_type: &str, body: &str) {
         println!("{}", "BODY".blue().bold());
+        // FIXME: When adding more use a match
         if content_type.contains("json") {
             match serde_json::from_str::<Value>(body) {
                 Ok(json) => {
@@ -70,6 +72,29 @@ impl PPrinter {
                 Err(_) => {
                     println!("(Invalid JSON)");
                 }
+            }
+        } else if content_type.contains("xml") {
+            // Based on https://gist.github.com/AaronM04/5376ec8242d7dba89157970808764b92
+            let el = Element::parse(body.as_bytes()).expect("Error parsing XML");
+            let mut cfg = EmitterConfig::new();
+            cfg.perform_indent = true;
+
+            let mut buffer = Vec::new();
+            let _ = el.write_with_config(&mut buffer, cfg);
+
+            let formatted_xml = String::from_utf8(buffer).unwrap();
+
+            let syntax_set = SyntaxSet::load_defaults_newlines();
+            let theme_set = ThemeSet::load_defaults();
+
+            let theme = &theme_set.themes["base16-ocean.dark"];
+            let syntax = syntax_set.find_syntax_by_extension("xml").unwrap();
+            let mut h = HighlightLines::new(syntax, theme);
+            for line in LinesWithEndings::from(&formatted_xml) {
+                let ranges: Vec<(Style, &str)> =
+                    h.highlight_line(line, &syntax_set).unwrap_or_default();
+                let escaped = as_24_bit_terminal_escaped(&ranges[..], true);
+                println!("{}", escaped);
             }
         } else {
             println!("{}", body);
